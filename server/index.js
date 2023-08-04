@@ -2,17 +2,21 @@
 import * as dal from './dal_local.js' 
 import express from "express";
 import cors from 'cors';
+import * as path from 'path';
 
-const path = require('path');
 
 //const PORT = process.env.PORT || 3001;
-
+const __dirname = path.dirname('../client/build/');
 const app = express();
-app.use(express.static('public'));
+//app.use(express.static('./client/public'));
 app.use(cors());
 
+app.get('*', (req, res) => {
+res.sendFile(path.resolve(__dirname));
+});
+
 // Have Node serve the files for our built React app
- app.use(express.static(path.resolve(__dirname, '../client/build')));
+ //app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
